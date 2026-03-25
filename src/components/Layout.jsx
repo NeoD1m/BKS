@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
+import { site } from '../data/siteInfo'
 import './Layout.css'
 
 const nav = [
@@ -14,6 +15,7 @@ const nav = [
 export default function Layout() {
   const [open, setOpen] = useState(false)
   const { totalItems } = useCart()
+  const { pathname } = useLocation()
 
   return (
     <div className="layout">
@@ -38,9 +40,11 @@ export default function Layout() {
               <NavLink
                 key={to}
                 to={to}
-                className={({ isActive }) =>
-                  `nav-link${isActive ? ' nav-link--active' : ''}${cart ? ' nav-link--cart' : ''}`
-                }
+                className={({ isActive }) => {
+                  const active =
+                    to === '/catalog' ? pathname.startsWith('/catalog') : isActive
+                  return `nav-link${active ? ' nav-link--active' : ''}${cart ? ' nav-link--cart' : ''}`
+                }}
                 onClick={() => setOpen(false)}
                 end={to === '/'}
               >
@@ -71,21 +75,29 @@ export default function Layout() {
           <div>
             <strong>Контакты</strong>
             <p className="footer-muted">
-              info@bks.example
+              <a href={`mailto:${site.emailOrders}`} className="footer-link">
+                {site.emailOrders}
+              </a>
               <br />
-              +7 (495) 000-00-00
+              <a href={`tel:${site.phoneTel}`} className="footer-link">
+                {site.phone}
+              </a>
             </p>
           </div>
           <div>
-            <strong>Адрес</strong>
+            <strong>Шоурум</strong>
             <p className="footer-muted">
-              г. Москва, ул. Примерная, д. 1
+              г. {site.city}
               <br />
-              Пн–Сб 10:00–20:00
+              {site.address}
+              <br />
+              {site.hours}
             </p>
           </div>
         </div>
-        <p className="footer-copy">© {new Date().getFullYear()} БКС. Все права защищены.</p>
+        <p className="footer-copy">
+          © {new Date().getFullYear()} {site.legalName}. ИНН {site.inn}, ОГРН {site.ogrn}
+        </p>
       </footer>
     </div>
   )

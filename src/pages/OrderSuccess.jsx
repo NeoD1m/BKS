@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ORDER_SUCCESS_FLAG } from '../lib/orderConstants'
+import { site } from '../data/siteInfo'
 import './Pages.css'
 
 export default function OrderSuccess() {
@@ -42,11 +43,17 @@ export default function OrderSuccess() {
         заказа, доставку и оплату.
       </p>
       <p className="order-success-hint">
-        Если у вас срочный вопрос, напишите на{' '}
-        <a href="mailto:info@bks.example" className="inline-link">
-          info@bks.example
-        </a>{' '}
-        или позвоните: +7 (495) 000-00-00.
+        Срочный вопрос:{' '}
+        <a href={`tel:${site.phoneTel}`} className="inline-link">
+          {site.phone}
+        </a>
+        {' '}
+        ({site.city}) ·{' '}
+        <a href={`mailto:${site.emailOrders}`} className="inline-link">
+          {site.emailOrders}
+        </a>
+        <br />
+        Режим работы: {site.hours}
       </p>
       <Link to="/" className="btn btn--primary btn--large order-success-btn">
         На главную

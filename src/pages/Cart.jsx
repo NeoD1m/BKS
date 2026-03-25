@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { formatPrice } from '../lib/formatPrice'
 import { ORDER_SUCCESS_FLAG } from '../lib/orderConstants'
+import { site } from '../data/siteInfo'
 import './Pages.css'
 
 export default function Cart() {
@@ -35,7 +36,6 @@ export default function Cart() {
       setError('Укажите телефон для связи.')
       return
     }
-    // Демо: данные не отправляются на сервер — только очищаем корзину и показываем успех
     sessionStorage.setItem(ORDER_SUCCESS_FLAG, '1')
     clearCart()
     navigate('/order-success', { replace: true })
@@ -81,7 +81,11 @@ export default function Cart() {
               <img src={product.image} alt="" width={120} height={90} loading="lazy" />
             </div>
             <div className="cart-line-info">
-              <h2 className="cart-line-name">{product.name}</h2>
+              <h2 className="cart-line-name">
+                <Link to={`/catalog/${productId}`} className="cart-line-title-link">
+                  {product.name}
+                </Link>
+              </h2>
               <p className="cart-line-meta">
                 {product.category} · {formatPrice(product.price)} за шт.
               </p>
@@ -129,8 +133,8 @@ export default function Cart() {
           Оформление заказа
         </h2>
         <p className="checkout-lead">
-          Оставьте контакты — консультант перезвонит и уточнит доставку и оплату. Отправка данных в
-          этом демо-проекте выполняется только в браузере (без сервера).
+          Оставьте контакты — менеджер {site.brand} перезвонит в рабочие часы, уточнит состав заказа,
+          способ оплаты и доставку по {site.city} или в другой регион.
         </p>
         <form className="checkout-form" onSubmit={handleSubmit} noValidate>
           <label className="field">
@@ -151,7 +155,7 @@ export default function Cart() {
               name="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="+7 (___) ___-__-__"
+              placeholder="+7 (812) 555-12-34"
               autoComplete="tel"
             />
           </label>
@@ -162,7 +166,7 @@ export default function Cart() {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Необязательно"
+              placeholder="Для чека и уведомлений"
               autoComplete="email"
             />
           </label>

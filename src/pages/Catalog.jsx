@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { products, categories } from '../data/products'
 import { useCart } from '../hooks/useCart'
 import { formatPrice } from '../lib/formatPrice'
@@ -18,8 +19,8 @@ export default function Catalog() {
       <header className="page-header">
         <h1 className="page-title">Каталог</h1>
         <p className="page-subtitle">
-          Сумки, кошельки, одежда и аксессуары из кожи. Добавляйте товары в корзину — она сохраняется
-          в браузере.
+          Сумки, кошельки, одежда и аксессуары из кожи. Выберите позиции и оформите заказ — корзина
+          сохранится, если вы вернётесь на сайт с этого устройства.
         </p>
       </header>
 
@@ -39,35 +40,46 @@ export default function Catalog() {
       <ul className="product-grid">
         {list.map((p) => (
           <li key={p.id} className="product-card">
-            <div className="product-card-image-wrap">
-              <img
-                src={p.image}
-                alt=""
-                className="product-card-image"
-                loading="lazy"
-                width={450}
-                height={340}
-              />
-            </div>
+            <Link to={`/catalog/${p.id}`} className="product-card-image-link" tabIndex={-1}>
+              <div className="product-card-image-wrap">
+                <img
+                  src={p.image}
+                  alt=""
+                  className="product-card-image"
+                  loading="lazy"
+                  width={450}
+                  height={340}
+                />
+              </div>
+            </Link>
             <div className="product-card-body">
               <span className="product-card-cat">{p.category}</span>
-              <h2 className="product-card-name">{p.name}</h2>
+              <h2 className="product-card-name">
+                <Link to={`/catalog/${p.id}`} className="product-card-title-link">
+                  {p.name}
+                </Link>
+              </h2>
               <p className="product-card-desc">{p.description}</p>
               <p className="product-card-price">{formatPrice(p.price)}</p>
-              <button
-                type="button"
-                className="btn btn--primary btn--small"
-                onClick={() => addItem(p.id, 1)}
-              >
-                В корзину
-              </button>
+              <div className="product-card-actions">
+                <button
+                  type="button"
+                  className="btn btn--primary btn--small"
+                  onClick={() => addItem(p.id, 1)}
+                >
+                  В корзину
+                </button>
+                <Link to={`/catalog/${p.id}`} className="btn btn--ghost btn--small">
+                  Подробнее
+                </Link>
+              </div>
             </div>
           </li>
         ))}
       </ul>
 
       {list.length === 0 && (
-        <p className="empty-msg">В этой категории пока нет товаров (демо-фильтр).</p>
+        <p className="empty-msg">В этой категории сейчас нет позиций — выберите другой раздел.</p>
       )}
     </div>
   )

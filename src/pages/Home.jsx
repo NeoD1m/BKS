@@ -78,7 +78,9 @@ export default function Home() {
               Перейти в корзину
             </Link>
           </div>
-          <p className="hero-trust">Бесплатная консультация · Примерка в шоуруме по записи</p>
+          <p className="hero-trust">
+            Шоурум в центре Санкт-Петербурга · консультация и примерка по записи
+          </p>
         </div>
       </section>
 
@@ -126,7 +128,7 @@ export default function Home() {
           <div className="home-featured-grid">
             {featured.map((p) => (
               <article key={p.id} className="home-featured-card">
-                <Link to="/catalog" className="home-featured-link">
+                <Link to={`/catalog/${p.id}`} className="home-featured-link">
                   <div className="home-featured-img-wrap">
                     <img src={p.image} alt="" loading="lazy" width={280} height={210} />
                   </div>
@@ -225,7 +227,7 @@ export default function Home() {
               «Заказывала сумку БКС в подарок — упаковка аккуратная, кожа на ощупь просто супер.
               Консультант помог с размером, всё приехало в срок.»
             </p>
-            <footer>— Анна, Москва</footer>
+            <footer>— Анна, Санкт-Петербург</footer>
           </blockquote>
         </div>
       </section>
