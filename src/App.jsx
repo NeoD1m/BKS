@@ -6,6 +6,7 @@ import Catalog from './pages/Catalog'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Cart from './pages/Cart'
+import OrderSuccess from './pages/OrderSuccess'
 
 /** ScrollRestoration требует data router; для BrowserRouter — скролл наверх при смене пути. */
 function ScrollToTop() {
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="order-success" element={<OrderSuccess />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

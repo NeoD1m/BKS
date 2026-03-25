@@ -1,8 +1,61 @@
 import { Link } from 'react-router-dom'
+import { products } from '../data/products'
+import { formatPrice } from '../lib/formatPrice'
 import './Pages.css'
 
 const heroImage =
   'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=1600&q=85'
+
+const showcase = [
+  {
+    title: 'Сумки',
+    subtitle: 'От кросс-боди до тоут',
+    image:
+      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+    to: '/catalog',
+  },
+  {
+    title: 'Кошельки и портмоне',
+    subtitle: 'Компактно и надёжно',
+    image:
+      'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80',
+    to: '/catalog',
+  },
+  {
+    title: 'Одежда',
+    subtitle: 'Куртки и аксессуары',
+    image:
+      'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80',
+    to: '/catalog',
+  },
+]
+
+const stats = [
+  { value: '12+', label: 'лет на рынке' },
+  { value: '4.9', label: 'средняя оценка' },
+  { value: 'РФ', label: 'доставка по стране' },
+  { value: '100%', label: 'натуральная кожа' },
+]
+
+const steps = [
+  {
+    n: '01',
+    title: 'Выберите в каталоге',
+    text: 'Сумки, кошельки, одежда — фото и описания помогут сориентироваться.',
+  },
+  {
+    n: '02',
+    title: 'Оформите заказ',
+    text: 'Оставьте телефон в корзине — консультант уточнит детали и способ оплаты.',
+  },
+  {
+    n: '03',
+    title: 'Получите посылку',
+    text: 'Аккуратная упаковка и отслеживание — чтобы изделие доехало в идеальном виде.',
+  },
+]
+
+const featured = products.slice(0, 4)
 
 export default function Home() {
   return (
@@ -11,18 +64,111 @@ export default function Home() {
         <div className="hero-bg" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
         <div className="hero-overlay" />
         <div className="hero-content">
-          <p className="hero-eyebrow">Натуральная кожа · Ручная работа</p>
+          <p className="hero-eyebrow">БКС · Натуральная кожа · Ручная работа</p>
           <h1 className="hero-title">Сумки и аксессуары, которые служат годами</h1>
           <p className="hero-lead">
-            Мы создаём изделия из отборной кожи: от лаконичных кошельков до объёмных сумок и курток.
-            Каждая модель — это внимание к деталям и честные материалы.
+            Подбираем кожу и фурнитуру так, чтобы вещь носилась долго и выглядела дорого. От лаконичных
+            кошельков до курток — всё в одном стиле БКС.
           </p>
           <div className="hero-actions">
             <Link to="/catalog" className="btn btn--primary">
               Смотреть каталог
             </Link>
+            <Link to="/cart" className="btn btn--ghost">
+              Перейти в корзину
+            </Link>
+          </div>
+          <p className="hero-trust">Бесплатная консультация · Примерка в шоуруме по записи</p>
+        </div>
+      </section>
+
+      <section className="home-stats" aria-label="Коротко о нас">
+        <div className="section-inner home-stats-inner">
+          {stats.map((s) => (
+            <div key={s.label} className="home-stat">
+              <span className="home-stat-value">{s.value}</span>
+              <span className="home-stat-label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-inner">
+          <h2 className="section-title">Коллекции</h2>
+          <p className="section-intro">
+            Три направления — выберите, что ближе, и перейдите в каталог за полным ассортиментом.
+          </p>
+          <div className="showcase-grid">
+            {showcase.map((item) => (
+              <Link key={item.title} to={item.to} className="showcase-card">
+                <div
+                  className="showcase-card-bg"
+                  style={{ backgroundImage: `url(${item.image})` }}
+                  aria-hidden
+                />
+                <div className="showcase-card-overlay" />
+                <div className="showcase-card-text">
+                  <h3 className="showcase-card-title">{item.title}</h3>
+                  <p className="showcase-card-sub">{item.subtitle}</p>
+                  <span className="showcase-card-cta">Смотреть →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--alt">
+        <div className="section-inner">
+          <h2 className="section-title">Хиты сезона</h2>
+          <p className="section-intro">Популярные позиции — добавьте в корзину в пару кликов.</p>
+          <div className="home-featured-grid">
+            {featured.map((p) => (
+              <article key={p.id} className="home-featured-card">
+                <Link to="/catalog" className="home-featured-link">
+                  <div className="home-featured-img-wrap">
+                    <img src={p.image} alt="" loading="lazy" width={280} height={210} />
+                  </div>
+                  <h3 className="home-featured-name">{p.name}</h3>
+                  <p className="home-featured-price">{formatPrice(p.price)}</p>
+                </Link>
+              </article>
+            ))}
+          </div>
+          <div className="home-featured-more">
+            <Link to="/catalog" className="btn btn--primary">
+              Весь каталог
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section split-section">
+        <div className="section-inner split-inner">
+          <div
+            className="split-visual"
+            style={{
+              backgroundImage:
+                'url(https://images.unsplash.com/photo-1586075010923-2fcb457be3b8?auto=format&fit=crop&w=900&q=80)',
+            }}
+            role="img"
+            aria-label=""
+          />
+          <div className="split-content">
+            <h2 className="split-title">Материал, который чувствуется</h2>
+            <p className="split-text">
+              Мы работаем с плотной кожей с ровной фактурой: она не «ломается» на сгибах и со временем
+              приобретает благородную патину. Фурнитура — с защитой от коррозии, швы прошиваем
+              усиленной нитью.
+            </p>
+            <ul className="split-list">
+              <li>Контроль партий перед раскроем</li>
+              <li>Рекомендации по уходу с каждой покупкой</li>
+              <li>Возможность индивидуального заказа — уточняйте у консультанта</li>
+            </ul>
             <Link to="/about" className="btn btn--ghost">
-              О мастерской
+              Подробнее о БКС
             </Link>
           </div>
         </div>
@@ -58,17 +204,49 @@ export default function Home() {
       </section>
 
       <section className="section section--alt">
+        <div className="section-inner">
+          <h2 className="section-title">Как это работает</h2>
+          <div className="steps-grid">
+            {steps.map((step) => (
+              <div key={step.n} className="step-card">
+                <span className="step-num">{step.n}</span>
+                <h3 className="step-title">{step.title}</h3>
+                <p className="step-text">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section quote-section">
+        <div className="section-inner">
+          <blockquote className="home-quote">
+            <p>
+              «Заказывала сумку БКС в подарок — упаковка аккуратная, кожа на ощупь просто супер.
+              Консультант помог с размером, всё приехало в срок.»
+            </p>
+            <footer>— Анна, Москва</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      <section className="section section--alt">
         <div className="section-inner cta-block">
           <div>
             <h2 className="section-title section-title--left">Готовы подобрать модель?</h2>
             <p className="cta-text">
-              В каталоге представлены сумки, кошельки, кожаная одежда и аксессуары. Цены и описания
-              носят демонстрационный характер — замените их на актуальные для вашего магазина.
+              Загляните в каталог или соберите корзину — мы перезвоним, ответим на вопросы и поможем с
+              размером и цветом.
             </p>
           </div>
-          <Link to="/catalog" className="btn btn--primary btn--large">
-            Перейти в каталог
-          </Link>
+          <div className="cta-buttons">
+            <Link to="/catalog" className="btn btn--primary btn--large">
+              Перейти в каталог
+            </Link>
+            <Link to="/contact" className="btn btn--ghost btn--large">
+              Задать вопрос
+            </Link>
+          </div>
         </div>
       </section>
     </>

@@ -1,9 +1,12 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { formatPrice } from '../lib/formatPrice'
+import { ORDER_SUCCESS_FLAG } from '../lib/orderConstants'
 import './Pages.css'
 
 export default function Cart() {
+  const navigate = useNavigate()
   const {
     items,
     totalPrice,
@@ -12,6 +15,31 @@ export default function Cart() {
     removeItem,
     clearCart,
   } = useCart()
+
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [comment, setComment] = useState('')
+  const [error, setError] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    const trimmedName = name.trim()
+    const trimmedPhone = phone.trim()
+    if (!trimmedName) {
+      setError('Укажите имя.')
+      return
+    }
+    if (!trimmedPhone) {
+      setError('Укажите телефон для связи.')
+      return
+    }
+    // Демо: данные не отправляются на сервер — только очищаем корзину и показываем успех
+    sessionStorage.setItem(ORDER_SUCCESS_FLAG, '1')
+    clearCart()
+    navigate('/order-success', { replace: true })
+  }
 
   if (items.length === 0) {
     return (
@@ -96,19 +124,73 @@ export default function Cart() {
         <p className="cart-total-value">{formatPrice(totalPrice)}</p>
       </div>
 
-      <p className="cart-note">
-        Оплата и доставка настраиваются отдельно — это демо-корзина, данные хранятся в браузере
-        (localStorage).
-      </p>
-
-      <div className="cart-footer-actions">
-        <Link to="/catalog" className="btn btn--ghost">
-          ← К каталогу
-        </Link>
-        <button type="button" className="btn btn--primary" disabled>
-          Оформить заказ (демо)
-        </button>
-      </div>
+      <section className="checkout-block" aria-labelledby="checkout-heading">
+        <h2 id="checkout-heading" className="checkout-heading">
+          Оформление заказа
+        </h2>
+        <p className="checkout-lead">
+          Оставьте контакты — консультант перезвонит и уточнит доставку и оплату. Отправка данных в
+          этом демо-проекте выполняется только в браузере (без сервера).
+        </p>
+        <form className="checkout-form" onSubmit={handleSubmit} noValidate>
+          <label className="field">
+            <span className="field-label">Имя *</span>
+            <input
+              type="text"
+              name="customerName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Как к вам обращаться"
+              autoComplete="name"
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Телефон *</span>
+            <input
+              type="tel"
+              name="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+7 (___) ___-__-__"
+              autoComplete="tel"
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Email</span>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Необязательно"
+              autoComplete="email"
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Комментарий к заказу</span>
+            <textarea
+              name="comment"
+              rows={3}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Адрес доставки, удобное время звонка и т.д."
+            />
+          </label>
+          {error && (
+            <p className="checkout-error" role="alert">
+              {error}
+            </p>
+          )}
+          <div className="cart-footer-actions cart-footer-actions--form">
+            <Link to="/catalog" className="btn btn--ghost">
+              ← К каталогу
+            </Link>
+            <button type="submit" className="btn btn--primary btn--large">
+              Подтвердить заказ
+            </button>
+          </div>
+        </form>
+      </section>
     </div>
   )
 }
