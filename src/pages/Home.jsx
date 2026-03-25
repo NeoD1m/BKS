@@ -152,7 +152,7 @@ export default function Home() {
             className="split-visual"
             style={{
               backgroundImage:
-                'url(https://images.unsplash.com/photo-1586075010923-2fcb457be3b8?auto=format&fit=crop&w=900&q=80)',
+                'url(https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=900&q=80)',
             }}
             role="img"
             aria-label=""

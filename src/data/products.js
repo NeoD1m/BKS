@@ -145,7 +145,7 @@ export const products = [
     category: 'Аксессуары',
     price: 3900,
     image:
-      'https://images.unsplash.com/photo-1586075010923-2fcb457be3b8?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=85',
     description:
       'Ремень из цельного ремня кожи без склейки: пряжка литая, ширина полотна 3,5 см.',
     story:
