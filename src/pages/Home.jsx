@@ -3,29 +3,30 @@ import { products } from '../data/products'
 import { formatPrice } from '../lib/formatPrice'
 import './Pages.css'
 
-const heroImage =
-  'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=1600&q=85'
+const firstBag = products.find((p) => p.category === 'Сумки')
+const firstWallet = products.find((p) => p.category === 'Кошельки')
+const firstBelt = products.find((p) => p.category === 'Аксессуары')
+const splitImage = products.find((p) => p.name.includes('Исход')) || firstBag
+
+const heroImage = firstBag?.image
 
 const showcase = [
   {
     title: 'Сумки',
-    subtitle: 'От кросс-боди до тоут',
-    image:
-      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+    subtitle: 'От дорожных до городских',
+    image: firstBag?.image,
     to: '/catalog',
   },
   {
-    title: 'Кошельки и портмоне',
-    subtitle: 'Компактно и надёжно',
-    image:
-      'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80',
+    title: 'Кошельки',
+    subtitle: 'Портмоне и компактные модели',
+    image: firstWallet?.image,
     to: '/catalog',
   },
   {
-    title: 'Одежда',
-    subtitle: 'Куртки и аксессуары',
-    image:
-      'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80',
+    title: 'Ремни',
+    subtitle: 'Классика и акцентные модели',
+    image: firstBelt?.image,
     to: '/catalog',
   },
 ]
@@ -41,7 +42,7 @@ const steps = [
   {
     n: '01',
     title: 'Выберите в каталоге',
-    text: 'Сумки, кошельки, одежда — фото и описания помогут сориентироваться.',
+    text: 'Сумки, кошельки и ремни — фото и описания соответствуют реальным изделиям БКС.',
   },
   {
     n: '02',
@@ -61,14 +62,18 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <div className="hero-bg" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+        <div
+          className="hero-bg"
+          style={{ backgroundImage: heroImage ? `url(${heroImage})` : undefined }}
+          aria-hidden
+        />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="hero-eyebrow">БКС · Натуральная кожа · Ручная работа</p>
           <h1 className="hero-title">Сумки и аксессуары, которые служат годами</h1>
           <p className="hero-lead">
-            Подбираем кожу и фурнитуру так, чтобы вещь носилась долго и выглядела дорого. От лаконичных
-            кошельков до курток — всё в одном стиле БКС.
+            Подбираем кожу и фурнитуру так, чтобы вещь носилась долго и выглядела дорого. В каталоге —
+            сумки, кошельки и ремни в едином стиле БКС.
           </p>
           <div className="hero-actions">
             <Link to="/catalog" className="btn btn--primary">
@@ -106,7 +111,9 @@ export default function Home() {
               <Link key={item.title} to={item.to} className="showcase-card">
                 <div
                   className="showcase-card-bg"
-                  style={{ backgroundImage: `url(${item.image})` }}
+                  style={
+                    item.image ? { backgroundImage: `url(${item.image})` } : undefined
+                  }
                   aria-hidden
                 />
                 <div className="showcase-card-overlay" />
@@ -150,10 +157,13 @@ export default function Home() {
         <div className="section-inner split-inner">
           <div
             className="split-visual"
-            style={{
-              backgroundImage:
-                'url(https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=900&q=80)',
-            }}
+            style={
+              splitImage?.image
+                ? {
+                    backgroundImage: `url(${splitImage.image})`,
+                  }
+                : undefined
+            }
             role="img"
             aria-label=""
           />
