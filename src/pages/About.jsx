@@ -1,4 +1,5 @@
 import { site } from '../data/siteInfo'
+import teamPhoto from '../assets/team.png'
 import './Pages.css'
 
 export default function About() {
@@ -10,6 +11,21 @@ export default function About() {
           {site.brand} — {site.brandFull}. Мастерская и шоурум в центре {site.city}.
         </p>
       </header>
+
+      <figure className="about-team">
+        <img
+          src={teamPhoto}
+          alt="Команда БКС — мастера, технологи и менеджеры студии"
+          className="about-team-img"
+          width={960}
+          height={540}
+          loading="eager"
+        />
+        <figcaption className="about-team-caption">
+          Наша команда: мастера, технологи и менеджеры, которые отвечают за качество кожи, крой и
+          общение с клиентами.
+        </figcaption>
+      </figure>
 
       <div className="prose">
         <p>
@@ -27,7 +43,7 @@ export default function About() {
         </p>
         <h2 className="prose-h2">Как мы работаем</h2>
         <ul className="prose-list">
-          <li>Шоурум в центре города — можно примерить сумку или куртку по предварительной записи.</li>
+          <li>Шоурум в центре города — можно примерить сумку или ремень по предварительной записи.</li>
           <li>Доставка по России курьерскими службами и до пунктов выдачи — сроки согласуем при заказе.</li>
           <li>Обмен и возврат — в течение 14 дней, если изделие не использовалось и сохранена упаковка.</li>
         </ul>

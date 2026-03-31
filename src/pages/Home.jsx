@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { products } from '../data/products'
 import { formatPrice } from '../lib/formatPrice'
+import heroLeather from '../assets/leather.jpg'
 import './Pages.css'
 
 const firstBag = products.find((p) => p.category === 'Сумки')
@@ -8,7 +9,7 @@ const firstWallet = products.find((p) => p.category === 'Кошельки')
 const firstBelt = products.find((p) => p.category === 'Аксессуары')
 const splitImage = products.find((p) => p.name.includes('Исход')) || firstBag
 
-const heroImage = firstBag?.image
+const heroImage = heroLeather
 
 const showcase = [
   {
@@ -64,7 +65,7 @@ export default function Home() {
       <section className="hero">
         <div
           className="hero-bg"
-          style={{ backgroundImage: heroImage ? `url(${heroImage})` : undefined }}
+          style={{ backgroundImage: `url(${heroImage})` }}
           aria-hidden
         />
         <div className="hero-overlay" />
